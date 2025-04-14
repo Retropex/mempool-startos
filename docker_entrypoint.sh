@@ -159,7 +159,7 @@ db_process=$!
 
 # FRONTEND AUDIT
 
-sed -i 's/"window.__env.AUDIT = false;"/"window.__env.AUDIT = true;"/' /var/www/mempool/browser/resources/config.js
+sed -i 's/window\.__env\.AUDIT = false;/window.__env.AUDIT = true;/g' /var/www/mempool/browser/resources/config.js
 
 # START UP
 sed -i "s/user nobody;//g" /etc/nginx/nginx.conf
