@@ -14,7 +14,7 @@ LIGHTNING_DETECTED_PORT=9735
 __MEMPOOL_BACKEND_MAINNET_HTTP_HOST__=${BACKEND_MAINNET_HTTP_HOST:=127.0.0.1}
 __MEMPOOL_BACKEND_MAINNET_HTTP_PORT__=${BACKEND_MAINNET_HTTP_PORT:=8999}
 __MEMPOOL_FRONTEND_HTTP_PORT__=${FRONTEND_HTTP_PORT:=8080}
-__ACCELERATOR_BUTTON__=true
+__ACCELERATOR_BUTTON__=false
 __SERVICES_API__="https://mempool.embassy/api/v1/services"
 
 sed -i "s/__MEMPOOL_BACKEND_MAINNET_HTTP_HOST__/${__MEMPOOL_BACKEND_MAINNET_HTTP_HOST__}/g" /etc/nginx/conf.d/nginx-mempool.conf
@@ -39,6 +39,9 @@ __MEMPOOL_SERVICES_API__="https://mempool.embassy/api/v1/services"
 sed -i "s/CORE_RPC_HOST:=127.0.0.1/CORE_RPC_HOST:=$bitcoind_host/" start.sh
 sed -i "s/CORE_RPC_USERNAME:=mempool/CORE_RPC_USERNAME:=$bitcoind_user/" start.sh
 sed -i "s/CORE_RPC_PASSWORD:=mempool/CORE_RPC_PASSWORD:=$bitcoind_pass/" start.sh
+sed -i "s/MEMPOOL_AUDIT:=false/MEMPOOL_AUDIT:=true/" start.sh
+sed -i "s/MEMPOOL_GOGGLES_INDEXING:=false/MEMPOOL_GOGGLES_INDEXING:=true/" start.sh
+sed -i "s/MEMPOOL_BLOCKS_SUMMARIES_INDEXING:=false/MEMPOOL_BLOCKS_SUMMARIES_INDEXING:=true/" start.sh
 
 # adjust heap size
 sed -i "s/node \/backend\/package\/index.js/node --max-old-space-size=16384 \/backend\/package\/index.js/" start.sh
@@ -153,6 +156,10 @@ fi
 
 /usr/bin/mysqld_safe --user=mysql --datadir='/var/lib/mysql' &
 db_process=$!
+
+# FRONTEND AUDIT
+
+sed -i 's/"window.__env.AUDIT = false;"/"window.__env.AUDIT = true;"/' /var/www/mempool/browser/resources/config.js
 
 # START UP
 sed -i "s/user nobody;//g" /etc/nginx/nginx.conf

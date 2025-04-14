@@ -1,6 +1,6 @@
 # Use a multi-stage build to combine the specific images
-FROM mempool/frontend:v3.0.1 AS frontend
-FROM mempool/backend:v3.0.1 AS backend
+FROM ghcr.io/retropex/mempoolfrontend:v3.2.0 AS frontend
+FROM ghcr.io/retropex/mempoolbackend:v3.2.0 AS backend
 FROM mariadb:10.5.8 AS db
 FROM node:lts-buster-slim AS runner
 
@@ -10,6 +10,9 @@ ENV MEMPOOL_STDOUT_LOG_MIN_PRIORITY="info"
 ENV LIGHTNING_STATS_REFRESH_INTERVAL=3600
 ENV LIGHTNING_GRAPH_REFRESH_INTERVAL=3600
 ENV MEMPOOL_AUTOMATIC_POOLS_UPDATE=true
+ENV MEMPOOL_AUDIT=true
+ENV MEMPOOL_GOGGLES_INDEXING=true
+ENV MEMPOOL_BLOCKS_SUMMARIES_INDEXING=true
 
 USER root
 # arm64 or amd64

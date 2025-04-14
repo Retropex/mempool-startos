@@ -1,6 +1,6 @@
-id: mempool
+id: mempooldotguide
 title: Mempool
-version: 3.0.1
+version: 3.2.0
 release-notes: |
   * Updates upstream, which includes a fix to save CPU on lower powered hardware
 license: AGPL
@@ -11,8 +11,8 @@ marketing-site: "https://mempool.space/"
 donation-url: "https://mempool.space/sponsor"
 build: ["make"]
 description:
-  short: "Explore the full Bitcoin ecosystem"
-  long: "Be your own explorer.\n\nRun your own instance of The Mempool Open Source Project and trust no one—use your own node to beautifully visualize data about the Bitcoin network, transactions, blockchain, mempool, and more.\n\nThis product includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com."
+  short: "Explore Bitcoin"
+  long: "Run your own mempool dot guide instance."
 assets:
   license: LICENSE
   icon: icon.png
