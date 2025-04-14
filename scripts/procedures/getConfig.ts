@@ -6,7 +6,7 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
     "description": "The Tor address of the network interface",
     "type": "pointer",
     "subtype": "package",
-    "package-id": "mempool",
+    "package-id": "mempooldotguide",
     "target": "tor-address",
     "interface": "main",
   },
