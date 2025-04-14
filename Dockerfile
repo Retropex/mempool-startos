@@ -2,7 +2,7 @@
 FROM ghcr.io/retropex/mempoolfrontend:v3.2.0 AS frontend
 FROM ghcr.io/retropex/mempoolbackend:v3.2.0 AS backend
 FROM mariadb:10.5.8 AS db
-FROM node:lts-buster-slim AS runner
+FROM node:lts-bookworm-slim AS runner
 
 ENV MEMPOOL_CLEAR_PROTECTION_MINUTES="20"
 ENV MEMPOOL_INDEXING_BLOCKS_AMOUNT="52560"
@@ -21,7 +21,7 @@ ARG PLATFORM
 ARG ARCH
 # Install necessary packages
 RUN apt-get update && \
-    apt-get install -y nginx wait-for-it wget curl netcat \
+    apt-get install -y nginx wait-for-it wget curl netcat-traditional \
     build-essential python3 pkg-config rsync gettext \
     mariadb-server mariadb-client libaio1 iproute2 pwgen \
     && wget https://github.com/mikefarah/yq/releases/download/v4.6.3/yq_linux_${PLATFORM}.tar.gz -O - |\
