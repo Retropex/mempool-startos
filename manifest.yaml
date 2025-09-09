@@ -1,6 +1,6 @@
 id: mempooldotguide
 title: Mempool
-version: 3.3.0
+version: 3.3.0.2
 release-notes: |
   * Updates upstream, which includes a fix to save CPU on lower powered hardware
 license: AGPL
