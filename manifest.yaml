@@ -1,6 +1,6 @@
 id: mempooldotguide
 title: Mempool
-version: 3.3.0
+version: 3.3.0.2
 release-notes: |
   * Fix bug where lightning tab appeared even when disabled
   * Add Fulcrum as optinal indexer
