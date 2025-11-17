@@ -1,8 +1,8 @@
 id: mempooldotguide
 title: Mempool
-version: 3.3.0.2
+version: 3.3.0.3
 release-notes: |
-  * Updates upstream, which includes a fix to save CPU on lower powered hardware
+  * Fix bitnodes API
 license: AGPL
 wrapper-repo: "https://github.com/Start9Labs/mempool-wrapper"
 upstream-repo: "https://github.com/mempool/mempool"

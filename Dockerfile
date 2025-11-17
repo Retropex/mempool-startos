@@ -1,6 +1,6 @@
 # Use a multi-stage build to combine the specific images
-FROM ghcr.io/retropex/mempoolfrontend:v3.3.0-dev2 AS frontend
-FROM ghcr.io/retropex/mempoolbackend:v3.3.0-dev2 AS backend
+FROM ghcr.io/retropex/mempoolfrontend:v3.3.0-rc1@sha256:c870644944ee4276192fccff002a4ab415bc0cd58c4b1172e0f32af23e98ac66 AS frontend
+FROM ghcr.io/retropex/mempoolbackend:v3.3.0-rc1@sha256:4394384b8afe5b99dd7263807f49c9177b95278819c9da9428bb1b1e0b200176 AS backend
 FROM mariadb:10.5.8 AS db
 FROM node:lts-bookworm-slim AS runner
 
