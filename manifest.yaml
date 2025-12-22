@@ -4,11 +4,11 @@ version: 3.3.0.3
 release-notes: |
   * Fix bitnodes API
 license: AGPL
-wrapper-repo: "https://github.com/Start9Labs/mempool-wrapper"
-upstream-repo: "https://github.com/mempool/mempool"
-support-site: "https://mempool.space/docs/api/rest"
-marketing-site: "https://mempool.space/"
-donation-url: "https://mempool.space/sponsor"
+wrapper-repo: "https://github.com/Retropex/mempool-startos"
+upstream-repo: "https://github.com/Retropex/mempool"
+support-site: "https://mempool.guide"
+marketing-site: "https://mempool.guide"
+donation-url: "https://github.com/Retropex/mempool-startos"
 build: ["make"]
 description:
   short: "Explore Bitcoin"

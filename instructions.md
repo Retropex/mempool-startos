@@ -30,4 +30,4 @@ Accelerating mempool transactions allows them to be prioritized by mining pools 
 
 ## Support
 
-For additional support, please read the mempool documentation on the documentation tab, or visit the [mempool.space matrix support room](https://matrix.to/#/%23mempool:bitcoin.kyoto).
+For additional support, please read the mempool documentation on the documentation tab, or visit the [mempool.guide GitHub](https://github.com/Retropex/mempool-startos).
