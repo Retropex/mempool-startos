@@ -3,6 +3,8 @@ import { migration_down_2_3_1_4 } from "../migrations/2_3_1_4_down_migration.ts"
 import { migration_up_2_3_1_4 } from "../migrations/2_3_1_4_up_migration.ts";
 import { migration_down_2_5_0 } from "../migrations/2_5_0_down_migration.ts";
 import { migration_up_2_5_0 } from "../migrations/2_5_0_up_migration.ts";
+import { migration_down_3_3_0_4 } from "../migrations/3_3_0_4_down_migration.ts";
+import { migration_up_3_3_0_4 } from "../migrations/3_3_0_4_up_migration.ts";
 
 export const migration: T.ExpectedExports.migration = async (effects, version) => {
 
@@ -17,6 +19,11 @@ export const migration: T.ExpectedExports.migration = async (effects, version) =
     return result
   }
 
+  if (rangeOf('<3.3.0.4').check(version)) {
+    const result = await migration_up_3_3_0_4(effects, version)
+    return result
+  }
+
   // to migrations (downgrades)
   if (rangeOf('>2.3.1.4').check(version)) {
     const result = await migration_down_2_3_1_4(effects, version)
@@ -25,6 +32,11 @@ export const migration: T.ExpectedExports.migration = async (effects, version) =
 
   if (rangeOf('>2.5.0').check(version)) {
     const result = await migration_down_2_5_0(effects, version)
+    return result
+  }
+
+  if (rangeOf('>3.3.0.4').check(version)) {
+    const result = await migration_down_3_3_0_4(effects, version)
     return result
   }
 

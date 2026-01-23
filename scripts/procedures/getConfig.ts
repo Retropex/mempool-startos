@@ -53,10 +53,25 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
       "cln": {},
     }
   },
-  "enable-electrs": {
-    "name": "Enable Electrs Address Lookups",
-    "description": "Enables address lookups via an internal electrs instance",
-    "type": "boolean",
-    "default": true,
+  "electrum-server": {
+    "type": "union",
+    "name": "Electrum Server",
+    "description": "Select an Electrum server for address lookups",
+    "tag": {
+      "id": "type",
+      "name": "Select Electrum Server",
+      "variant-names": {
+        "none": "Disabled",
+        "electrs": "electrs",
+        "fulcrum": "Fulcrum",
+      },
+      "description": "The Electrum server to use for address lookups",
+    },
+    "default": "none",
+    "variants": {
+      "none": {},
+      "electrs": {},
+      "fulcrum": {},
+    }
   }
 });
