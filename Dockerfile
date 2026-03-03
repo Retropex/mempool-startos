@@ -1,6 +1,6 @@
 # Use a multi-stage build to combine the specific images
-FROM ghcr.io/retropex/mempoolfrontend:v3.3.0-dev4@sha256:a3273d936b40a203a93a3852f21dd678bea72fd78831ba800663e933ba8b891f AS frontend
-FROM ghcr.io/retropex/mempoolbackend:v3.3.0-dev4@sha256:ee809aeec576dd61dec676f0026bcf993782e9f1f3b6628bf3b6e53bab7acf8d AS backend
+FROM ghcr.io/retropex/mempoolfrontend:v3.3.0-beta@sha256:5f515352f46b892bab7c70af76f716786946dfddb675a1cf7c60e78b0ae5b3fb AS frontend
+FROM ghcr.io/retropex/mempoolbackend:v3.3.0-beta@sha256:05240bd6dda0b66c18273d1bd2643d58d0c4296437e6b4e3fdbfa1d46f03eb08 AS backend
 
 ENV MEMPOOL_CLEAR_PROTECTION_MINUTES="20"
 ENV MEMPOOL_INDEXING_BLOCKS_AMOUNT="52560"
