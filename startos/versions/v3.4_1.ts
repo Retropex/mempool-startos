@@ -2,19 +2,19 @@ import { IMPOSSIBLE, VersionInfo, YAML } from '@start9labs/start-sdk'
 import { readFile, rm, writeFile } from 'fs/promises'
 import { configJson } from '../file-models/mempool-config.json'
 
-export const v_3_3_1_1 = VersionInfo.of({
-  version: '3.3.1:1',
+export const v_3_4_1 = VersionInfo.of({
+  version: '#mpg:3.4:1',
   releaseNotes: {
     en_US:
-      'Updates Mempool to upstream v3.3.1, bringing Taproot script tree visualization, sighash highlighting, stale block comparisons, annex goggles, sub-1-sat/vB support, ephemeral dust, PSBT signature previews, decimal fee recommendations, and new API endpoints. Adds a new "Configure Indexing" action so you can opt in to block summaries, goggles, block audits, and CPFP indexing.',
+      'Updates Mempool to upstream v3.4-beta, bringing Taproot script tree visualization, sighash highlighting, stale block comparisons, annex goggles, sub-1-sat/vB support, ephemeral dust, PSBT signature previews, decimal fee recommendations, and new API endpoints. Adds a new "Configure Indexing" action so you can opt in to block summaries, goggles, block audits, and CPFP indexing.',
     es_ES:
-      'Actualiza Mempool a la version upstream v3.3.1, que incorpora visualizacion del arbol de scripts Taproot, resaltado de sighash, comparaciones de bloques obsoletos, goggles de annex, soporte para sub-1-sat/vB, dust efimero, vista previa de firmas PSBT, recomendaciones de tarifa decimales y nuevos endpoints de API. Anade una nueva accion "Configurar indexacion" para habilitar resumenes de bloques, goggles, auditorias de bloques e indexacion CPFP.',
+      'Actualiza Mempool a la version upstream v3.4-beta, que incorpora visualizacion del arbol de scripts Taproot, resaltado de sighash, comparaciones de bloques obsoletos, goggles de annex, soporte para sub-1-sat/vB, dust efimero, vista previa de firmas PSBT, recomendaciones de tarifa decimales y nuevos endpoints de API. Anade una nueva accion "Configurar indexacion" para habilitar resumenes de bloques, goggles, auditorias de bloques e indexacion CPFP.',
     de_DE:
-      'Aktualisiert Mempool auf Upstream v3.3.1 mit Visualisierung des Taproot-Skriptbaums, Sighash-Hervorhebung, Vergleichen veralteter Bloecke, Annex-Goggles, Sub-1-Sat/vB-Unterstuetzung, kurzlebigem Dust, PSBT-Signaturvorschau, dezimalen Gebuehrenempfehlungen und neuen API-Endpunkten. Fuegt eine neue Aktion "Indexierung konfigurieren" hinzu, um Blockzusammenfassungen, Goggles, Block-Audits und CPFP-Indexierung zu aktivieren.',
+      'Aktualisiert Mempool auf Upstream v3.4-beta mit Visualisierung des Taproot-Skriptbaums, Sighash-Hervorhebung, Vergleichen veralteter Bloecke, Annex-Goggles, Sub-1-Sat/vB-Unterstuetzung, kurzlebigem Dust, PSBT-Signaturvorschau, dezimalen Gebuehrenempfehlungen und neuen API-Endpunkten. Fuegt eine neue Aktion "Indexierung konfigurieren" hinzu, um Blockzusammenfassungen, Goggles, Block-Audits und CPFP-Indexierung zu aktivieren.',
     pl_PL:
-      'Aktualizuje Mempool do wersji upstream v3.3.1 z wizualizacja drzewa skryptu Taproot, podswietlaniem sighash, porownywaniem blokow nieaktualnych, goglami annex, obsluga sub-1-sat/vB, efemerycznym pylem, podgladem podpisow PSBT, dziesietnymi rekomendacjami oplat i nowymi endpointami API. Dodaje nowa akcje "Konfiguruj indeksowanie" umozliwiajaca wlaczenie podsumowan blokow, gogli, audytow blokow i indeksowania CPFP.',
+      'Aktualizuje Mempool do wersji upstream v3.4-beta z wizualizacja drzewa skryptu Taproot, podswietlaniem sighash, porownywaniem blokow nieaktualnych, goglami annex, obsluga sub-1-sat/vB, efemerycznym pylem, podgladem podpisow PSBT, dziesietnymi rekomendacjami oplat i nowymi endpointami API. Dodaje nowa akcje "Konfiguruj indeksowanie" umozliwiajaca wlaczenie podsumowan blokow, gogli, audytow blokow i indeksowania CPFP.',
     fr_FR:
-      "Met a jour Mempool vers la version upstream v3.3.1 avec visualisation de l'arbre de script Taproot, surlignage sighash, comparaisons de blocs obsoletes, goggles annex, prise en charge sub-1-sat/vB, poussiere ephemere, apercu des signatures PSBT, recommandations de frais decimales et nouveaux endpoints API. Ajoute une nouvelle action 'Configurer l'indexation' permettant d'activer les resumes de blocs, goggles, audits de blocs et indexation CPFP.",
+      "Met a jour Mempool vers la version upstream v3.4-beta avec visualisation de l'arbre de script Taproot, surlignage sighash, comparaisons de blocs obsoletes, goggles annex, prise en charge sub-1-sat/vB, poussiere ephemere, apercu des signatures PSBT, recommandations de frais decimales et nouveaux endpoints API. Ajoute une nouvelle action 'Configurer l'indexation' permettant d'activer les resumes de blocs, goggles, audits de blocs et indexation CPFP.",
   },
   migrations: {
     up: async ({ effects }) => {
@@ -89,5 +89,15 @@ export const v_3_3_1_1 = VersionInfo.of({
       }
     },
     down: IMPOSSIBLE,
+    other: {
+      ['3.3.1:2']: {
+        up: async ({}) => {},
+        down: async ({}) => {},
+      },
+      ['3.3.1:1']: {
+        up: async ({}) => {},
+        down: async ({}) => {},
+      },
+    }
   },
 })

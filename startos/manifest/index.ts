@@ -13,25 +13,25 @@ import {
 
 export const manifest = setupManifest({
   id: 'mempool',
-  title: 'Mempool',
+  title: 'Mempool Guide',
   license: 'AGPL',
-  packageRepo: 'https://github.com/Start9Labs/mempool-startos',
+  packageRepo: 'https://github.com/retropex/mempool-startos',
   upstreamRepo: 'https://github.com/mempool/mempool',
-  marketingUrl: 'https://mempool.space',
-  donationUrl: 'https://mempool.space/sponsor',
-  docsUrls: ['https://mempool.space/docs/'],
+  marketingUrl: 'https://mempool.guide',
+  donationUrl: null,
+  docsUrls: ['https://mempool.guide/docs/'],
   description: { short, long },
   volumes: ['main', 'cache', 'db', 'config'],
   images: {
     frontend: {
       source: {
-        dockerTag: 'mempool/frontend:v3.3.1',
+        dockerTag: 'ghcr.io/retropex/mempoolfrontend:v3.4-beta',
       },
       arch: ['x86_64', 'aarch64'],
     },
     backend: {
       source: {
-        dockerTag: 'mempool/backend:v3.3.1',
+        dockerTag: 'ghcr.io/retropex/mempoolbackend:v3.4-beta',
       },
       arch: ['x86_64', 'aarch64'],
     },

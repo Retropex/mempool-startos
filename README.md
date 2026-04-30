@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="icon.svg" alt="Mempool Logo" width="21%">
+  <img src="icon.png" alt="Mempool Logo" width="21%">
 </p>
 
 # Mempool on StartOS
