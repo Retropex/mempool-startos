@@ -58,7 +58,7 @@ export const setDependencies = sdk.setupDependencies(async ({ effects }) => {
     currentDeps.electrs = {
       id: 'electrs',
       kind: 'running',
-      versionRange: '>=0.11.1:3',
+      versionRange: '>=0.11.1:1',
       healthChecks: ['electrs', 'sync'],
     }
   }
