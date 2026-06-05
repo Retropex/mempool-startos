@@ -1,6 +1,6 @@
 id: mempooldotguide
 title: Mempool
-version: 3.4.0
+version: 3.4.0.2
 release-notes: |
   * Update the upstream code
 license: AGPL
