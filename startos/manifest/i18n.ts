@@ -1,13 +1,9 @@
 export const short = {
-  en_US: 'Be your own explorer® with The Mempool Open Source Project®',
-  es_ES:
-    'Se su propio explorador® con The Mempool Open Source Project®',
-  de_DE:
-    'Seien Sie Ihr eigener Explorer® mit The Mempool Open Source Project®',
-  pl_PL:
-    'Badz swoim wlasnym eksploratorem® z The Mempool Open Source Project®',
-  fr_FR:
-    'Soyez votre propre explorateur® avec The Mempool Open Source Project®',
+  en_US: 'Explore Bitcoin',
+  es_ES: 'Explorar Bitcoin',
+  de_DE: 'Bitcoin erkunden',
+  pl_PL: 'Eksploruj Bitcoin',
+  fr_FR: 'Explorer Bitcoin',
 }
 
 export const long = {
