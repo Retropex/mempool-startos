@@ -57,7 +57,7 @@ export const setDependencies = sdk.setupDependencies(async ({ effects }) => {
     currentDeps.fulcrum = {
       id: 'fulcrum',
       kind: 'running',
-      versionRange: '>=2.1.0:9',
+      versionRange: '>=#blake:2.1.2:0',
       healthChecks: ['primary', 'sync-progress'],
     }
   } else if (electrumHost === 'electrs.startos') {

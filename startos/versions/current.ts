@@ -3,9 +3,9 @@ import { readFile, rm, writeFile } from 'fs/promises'
 import { configJson } from '../file-models/mempool-config.json'
 
 export const v_3_4_4 = VersionInfo.of({
-  version: '#mpg:3.4:5',
+  version: '#mpg:3.4:6',
   releaseNotes: {
-    en_US: 'Require a BLAKE2b node'
+    en_US: 'Require a BLAKE2b node and fix migration'
   },
   migrations: {
     up: async ({ effects }) => {
@@ -80,5 +80,10 @@ export const v_3_4_4 = VersionInfo.of({
       }
     },
     down: IMPOSSIBLE,
+    other: {
+        ['*']: {
+            up: async ({ effects }) => {},
+        }
+    }
   },
 })
