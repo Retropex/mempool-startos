@@ -169,10 +169,6 @@ export const main = sdk.setupMain(async ({ effects }) => {
         user: 'root',
         env: {
           NODE_OPTIONS: `--max-old-space-size=${backendMaxOldSpaceMB}`,
-          MEMPOOL_POOLS_JSON_URL: "https://raw.githubusercontent.com/retropex/mining-pools/master/pools-v2.json",
-          MEMPOOL_POOLS_JSON_TREE_URL: "https://api.github.com/repos/retropex/mining-pools/git/trees/master",
-          BLOCK_WEIGHT_UNITS: "800000",
-          MEMPOOL_AUTOMATIC_POOLS_UPDATE: "true",
         },
       },
       ready: {

@@ -11,6 +11,22 @@ import {
 const mempoolSection = z.object({
   // enforced
   BACKEND: z.literal('electrum').catch('electrum'),
+  BLOCK_WEIGHT_UNITS: z.literal(800000).catch(800000),
+  AUTOMATIC_POOLS_UPDATE: z.literal(true).catch(true),
+  POOLS_JSON_URL: z
+    .literal(
+      'https://raw.githubusercontent.com/retropex/mining-pools/master/pools-v2.json',
+    )
+    .catch(
+      'https://raw.githubusercontent.com/retropex/mining-pools/master/pools-v2.json',
+    ),
+  POOLS_JSON_TREE_URL: z
+    .literal(
+      'https://api.github.com/repos/retropex/mining-pools/git/trees/master',
+    )
+    .catch(
+      'https://api.github.com/repos/retropex/mining-pools/git/trees/master',
+    ),
   // configurable
   OFFICIAL: z.boolean().catch(false),
   NETWORK: z.enum(['mainnet', 'testnet']).catch('mainnet'),
@@ -23,7 +39,6 @@ const mempoolSection = z.object({
   CACHE_ENABLED: z.boolean().catch(true),
   CLEAR_PROTECTION_MINUTES: z.number().catch(20),
   RECOMMENDED_FEE_PERCENTILE: z.number().catch(50),
-  BLOCK_WEIGHT_UNITS: z.number().catch(4000000),
   INITIAL_BLOCKS_AMOUNT: z.number().catch(8),
   MEMPOOL_BLOCKS_AMOUNT: z.number().catch(
     PROFILES[DEFAULT_PROFILE].MEMPOOL_BLOCKS_AMOUNT,
@@ -39,17 +54,6 @@ const mempoolSection = z.object({
   STDOUT_LOG_MIN_PRIORITY: z
     .enum(['trade', 'debug', 'info', 'warn', 'error'])
     .catch('info'),
-  AUTOMATIC_POOLS_UPDATE: z.boolean().catch(false),
-  POOLS_JSON_URL: z
-    .string()
-    .catch(
-      'https://raw.githubusercontent.com/mempool/mining-pools/master/pools-v2.json',
-    ),
-  POOLS_JSON_TREE_URL: z
-    .string()
-    .catch(
-      'https://api.github.com/repos/mempool/mining-pools/git/trees/master',
-    ),
   POOLS_UPDATE_DELAY: z.number().catch(604800),
   AUDIT: z.boolean().catch(false),
   RUST_GBT: z.boolean().catch(true),
