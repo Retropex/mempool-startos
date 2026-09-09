@@ -3,9 +3,9 @@ import { readFile, rm, writeFile } from 'fs/promises'
 import { configJson } from '../file-models/mempool-config.json'
 
 export const v_3_4_4 = VersionInfo.of({
-  version: '#mpg:3.4:6',
+  version: '#mpg:3.4:7',
   releaseNotes: {
-    en_US: 'Require a BLAKE2b node and fix migration'
+    en_US: 'Fetch pools from mempool guide repo'
   },
   migrations: {
     up: async ({ effects }) => {
