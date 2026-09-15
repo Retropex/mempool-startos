@@ -36,6 +36,10 @@ Open the **Web UI** interface to reach Mempool. The home page shows the live mem
   - **Enable Statistics** — leave on (default) for the tx/s and vbytes/s dashboard charts; turn off to skip the 1 Hz sampler and periodic MariaDB writes.
   - **Indexing toggles** — **Block Summaries Indexing**, **Goggles Indexing**, **Block Audit** (requires Block Summaries), and **CPFP Indexing**. Each trades disk and CPU for richer block visualizations. Enabling any toggle triggers a historical backfill on the next start that can take several hours. The action rejects any submission with an indexing toggle on when the device has less than 16 GB of system RAM.
 
+### Backups
+
+StartOS backs up your Mempool **configuration** — your indexer, Lightning, and indexing selections. Everything Mempool displays is derived from your own Bitcoin node, so the database itself is not copied into the backup; after a restore, Mempool rebuilds it by re-indexing from Bitcoin Core. Recent blocks and fees appear quickly, and full historical charts — mining, hashrate, and any block-summary indexing you enabled — backfill over the next few hours, adding some load on Bitcoin Core while they catch up.
+
 ## Limitations
 
 - **Mainnet only.** Testnet, testnet4, signet, regtest, and Liquid are not available.
