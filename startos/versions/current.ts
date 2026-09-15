@@ -3,9 +3,9 @@ import { readFile, rm, writeFile } from 'fs/promises'
 import { configJson } from '../file-models/mempool-config.json'
 
 export const v_3_4_4 = VersionInfo.of({
-  version: '#mpg:3.4:7',
+  version: '#mpg:3.4:8',
   releaseNotes: {
-    en_US: 'Fetch pools from mempool guide repo'
+    en_US: 'Fixes backups failing on installs with database indexing enabled. Backups now capture only your Mempool configuration; on restore, Mempool rebuilds its database by re-indexing from Bitcoin Core, so historical charts fill in over the following hours.'
   },
   migrations: {
     up: async ({ effects }) => {
