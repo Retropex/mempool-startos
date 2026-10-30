@@ -24,13 +24,13 @@ export const manifest = setupManifest({
   images: {
     frontend: {
       source: {
-        dockerTag: 'ghcr.io/retropex/mempoolfrontend:v3.4-beta6',
+        dockerTag: 'ghcr.io/horizon-btc/mempoolfrontend:v3.4-beta7',
       },
       arch: ['x86_64', 'aarch64'],
     },
     backend: {
       source: {
-        dockerTag: 'ghcr.io/retropex/mempoolbackend:v3.4-beta6',
+        dockerTag: 'ghcr.io/horizon-btc/mempoolbackend:v3.4-beta7',
       },
       arch: ['x86_64', 'aarch64'],
     },

@@ -3,9 +3,9 @@ import { readFile, rm, writeFile } from 'fs/promises'
 import { configJson } from '../file-models/mempool-config.json'
 
 export const v_3_4_4 = VersionInfo.of({
-  version: '#mpg:3.4:9',
+  version: '#mpg:3.4:10',
   releaseNotes: {
-    en_US: 'Add DATUM miners on the pie chart.'
+    en_US: 'Fiat price, better spam detection'
   },
   migrations: {
     up: async ({ effects }) => {
