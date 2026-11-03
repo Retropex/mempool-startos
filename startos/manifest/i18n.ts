@@ -77,6 +77,18 @@ export const clnDescription = {
   fr_FR: 'Utilise pour fournir les donnees du reseau Lightning',
 }
 
+export const lightningForkDescription = {
+  en_US: 'Used to provide Lightning Network data from a Lightning Fork node',
+  es_ES:
+    'Se usa para proporcionar datos de la red Lightning desde un nodo Lightning Fork',
+  de_DE:
+    'Wird verwendet, um Lightning-Netzwerkdaten von einem Lightning-Fork-Knoten bereitzustellen',
+  pl_PL:
+    'Uzywany do dostarczania danych sieci Lightning z wezla Lightning Fork',
+  fr_FR:
+    'Utilise pour fournir les donnees du reseau Lightning depuis un noeud Lightning Fork',
+}
+
 export const lndDescription = {
   en_US: 'Used to provide Lightning Network data',
   es_ES: 'Se usa para proporcionar datos de la red Lightning',

@@ -3,6 +3,7 @@ import { manifest as bitcoinManifest } from 'bitcoin-core-startos/startos/manife
 import { manifest as clnManifest } from 'cln-startos/startos/manifest'
 import { manifest as lndManifest } from 'lnd-startos/startos/manifest'
 import { configJson } from './file-models/mempool-config.json'
+import { storeJson } from './file-models/store.json'
 import { i18n } from './i18n'
 import { sdk } from './sdk'
 import {
@@ -10,6 +11,7 @@ import {
   btcMountpoint,
   clnMountpoint,
   lndMountpoint,
+  settled,
   uiPort,
 } from './utils'
 
@@ -23,8 +25,12 @@ export const main = sdk.setupMain(async ({ effects }) => {
   // Dependency setup & checks
   // ========================
 
-  const config = await configJson.read().const(effects)
+  const config = await settled(() => configJson.read().const(effects))
   if (!config) throw new Error('Config file not found')
+  const lndPackage =
+    (await settled(() =>
+      storeJson.read((s) => s.lightningPackage).const(effects),
+    )) ?? 'lnd'
 
   // V8 old-space heap for the mempool backend, scaled to host RAM.
   // Reserve 6 GB for the co-resident stack (Bitcoin Core post-sync,
@@ -69,8 +75,10 @@ export const main = sdk.setupMain(async ({ effects }) => {
   if (config.LIGHTNING.ENABLED) {
     switch (config.LIGHTNING.BACKEND) {
       case 'lnd':
+        // Lightning Fork has the LND package's volume layout, so the LND
+        // manifest types its mount too.
         backendMounts = backendMounts.mountDependency<typeof lndManifest>({
-          dependencyId: 'lnd',
+          dependencyId: lndPackage as 'lnd',
           volumeId: 'main',
           subpath: null,
           mountpoint: lndMountpoint,

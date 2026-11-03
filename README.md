@@ -106,19 +106,20 @@ Mempool is configured via `mempool-config.json`, managed by StartOS.
 
 ### Written by Actions
 
-| Setting                                    | Action                   | Notes                                                         |
-| ------------------------------------------ | ------------------------ | ------------------------------------------------------------- |
-| `ELECTRUM.HOST` / `.PORT` / `.TLS_ENABLED` | Select Indexer           | `fulcrum.startos` or `electrs.startos`, port `50001`, TLS off |
-| `LIGHTNING.ENABLED` / `.BACKEND`           | Enable Lightning         | Backend is `lnd` or `cln`                                     |
-| `LND.TLS_CERT_PATH` / `.MACAROON_PATH`     | Enable Lightning         | Paths under the LND mount                                     |
-| `CLIGHTNING.SOCKET`                        | Enable Lightning         | `lightning-rpc` socket under the CLN mount                    |
-| `MEMPOOL.POLL_RATE_MS`                     | Indexing and Performance | `8000` (Low-CPU) / `4000` (Balanced) / `2000` (Responsive)    |
-| `MEMPOOL.MEMPOOL_BLOCKS_AMOUNT`            | Indexing and Performance | `4` (Low-CPU) / `6` (Balanced) / `8` (Responsive)             |
-| `STATISTICS.ENABLED`                       | Indexing and Performance | Default on                                                    |
-| `MEMPOOL.BLOCKS_SUMMARIES_INDEXING`        | Indexing and Performance | Default off                                                   |
-| `MEMPOOL.GOGGLES_INDEXING`                 | Indexing and Performance | Default off                                                   |
-| `MEMPOOL.AUDIT`                            | Indexing and Performance | Default off; requires `BLOCKS_SUMMARIES_INDEXING`             |
-| `MEMPOOL.CPFP_INDEXING`                    | Indexing and Performance | Default off                                                   |
+| Setting                                    | Action                        | Notes                                                         |
+| ------------------------------------------ | ----------------------------- | ------------------------------------------------------------- |
+| `ELECTRUM.HOST` / `.PORT` / `.TLS_ENABLED` | Select Indexer                | `fulcrum.startos` or `electrs.startos`, port `50001`, TLS off |
+| `LIGHTNING.ENABLED` / `.BACKEND`           | Enable Lightning              | Backend is `lnd` or `cln`                                     |
+| `LND.TLS_CERT_PATH` / `.MACAROON_PATH`     | Enable Lightning              | Paths under the LND or Lightning Fork mount                   |
+| `LND.REST_API_URL`                         | (init, from Enable Lightning) | `https://<container IP>:8080` of the selected LND package     |
+| `CLIGHTNING.SOCKET`                        | Enable Lightning              | `lightning-rpc` socket under the CLN mount                    |
+| `MEMPOOL.POLL_RATE_MS`                     | Indexing and Performance      | `8000` (Low-CPU) / `4000` (Balanced) / `2000` (Responsive)    |
+| `MEMPOOL.MEMPOOL_BLOCKS_AMOUNT`            | Indexing and Performance      | `4` (Low-CPU) / `6` (Balanced) / `8` (Responsive)             |
+| `STATISTICS.ENABLED`                       | Indexing and Performance      | Default on                                                    |
+| `MEMPOOL.BLOCKS_SUMMARIES_INDEXING`        | Indexing and Performance      | Default off                                                   |
+| `MEMPOOL.GOGGLES_INDEXING`                 | Indexing and Performance      | Default off                                                   |
+| `MEMPOOL.AUDIT`                            | Indexing and Performance      | Default off; requires `BLOCKS_SUMMARIES_INDEXING`             |
+| `MEMPOOL.CPFP_INDEXING`                    | Indexing and Performance      | Default off                                                   |
 
 ### Bitcoin Core Requirements
 
@@ -156,10 +157,12 @@ Selecting an indexer enables address search and transaction history features. Se
 - **Purpose:** Select the Lightning node used to serve network data to the Lightning tab
 - **Visibility:** Enabled
 - **Availability:** Any status
-- **Inputs:** Select one of: LND, Core Lightning, None
+- **Inputs:** Select one of: LND, Lightning Fork, Core Lightning, None
 - **Outputs:** None
 
 When enabled, configures the `LIGHTNING` and `LND`/`CLIGHTNING` sections of the configuration and mounts the selected Lightning node's volume.
+
+Lightning Fork is an LND build with the LND package's layout, so Mempool's backend is `lnd` for both; `store.json` (`lightningPackage`) records which package to depend on, mount and reach. The REST URL uses the package's container IP rather than `<package>.startos`, because the package's TLS certificate includes the IP and not the name.
 
 ### Indexing and Performance
 
@@ -217,19 +220,20 @@ Sets `MEMPOOL.POLL_RATE_MS`, `MEMPOOL.MEMPOOL_BLOCKS_AMOUNT`, `STATISTICS.ENABLE
 | **API**           | Port 8999 listening                             | 45 seconds   | Success: "The API is ready" / Error: "The API is not ready"                     |
 | **Web Interface** | Port 8080 listening                             | Default      | Success: "The web interface is ready" / Error: "The web interface is not ready" |
 
-Sync status is no longer checked internally. Mempool gates on its dependencies' own health checks — bitcoind (`bitcoind`, `sync-progress`), the selected indexer (fulcrum `primary`/`sync-progress` or electrs `electrs`/`sync`), and the selected Lightning backend if enabled (lnd `lnd`/`sync-progress` or c-lightning `lightningd`/`check-synced`) — so it will not start until those backends are fully synced and reachable.
+Sync status is no longer checked internally. Mempool gates on its dependencies' own health checks — bitcoind (`bitcoind`, `sync-progress`), the selected indexer (fulcrum `primary`/`sync-progress` or electrs `electrs`/`sync`), and the selected Lightning backend if enabled (lnd or lightning-fork `lnd`/`sync-progress`, or c-lightning `lightningd`/`check-synced`) — so it will not start until those backends are fully synced and reachable.
 
 ## Dependencies
 
-| Dependency     | Required | Version Range     | Health Gate                  | Mounted Volume (Dep Volume → Mount Point) | Purpose                                      |
-| -------------- | -------- | ----------------- | ---------------------------- | ----------------------------------------- | -------------------------------------------- |
-| Bitcoin Core   | Yes      | `>=28.3:7`        | `bitcoind`, `sync-progress`  | `main` → `/mnt/bitcoind`                  | Blockchain data via RPC                      |
-| Fulcrum        | Optional | `>=2.1.0:7`       | `primary`, `sync-progress`   | None                                      | Address lookups (recommended indexer)        |
-| Electrs        | Optional | `>=0.11.1:1`      | `electrs`, `sync`            | None                                      | Address lookups (alternate indexer)          |
-| LND            | Optional | `>=0.20.1-beta:1` | `lnd`, `sync-progress`       | `main` → `/mnt/lnd` (read-only)           | Lightning Network data (REST API + macaroon) |
-| Core Lightning | Optional | `>=25.12.1:4`     | `lightningd`, `check-synced` | `main/bitcoin` → `/mnt/cln` (read-only)   | Lightning Network data (Unix socket)         |
+| Dependency     | Required | Version Range        | Health Gate                  | Mounted Volume (Dep Volume → Mount Point) | Purpose                                      |
+| -------------- | -------- | -------------------- | ---------------------------- | ----------------------------------------- | -------------------------------------------- |
+| Bitcoin Core   | Yes      | `>=28.3:7`           | `bitcoind`, `sync-progress`  | `main` → `/mnt/bitcoind`                  | Blockchain data via RPC                      |
+| Fulcrum        | Optional | `>=2.1.0:7`          | `primary`, `sync-progress`   | None                                      | Address lookups (recommended indexer)        |
+| Electrs        | Optional | `>=0.11.1:1`         | `electrs`, `sync`            | None                                      | Address lookups (alternate indexer)          |
+| LND            | Optional | `>=0.20.1-beta:1`    | `lnd`, `sync-progress`       | `main` → `/mnt/lnd` (read-only)           | Lightning Network data (REST API + macaroon) |
+| Lightning Fork | Optional | `>=0.21.3-beta.16:0` | `lnd`, `sync-progress`       | `main` → `/mnt/lnd` (read-only)           | Lightning Network data (REST API + macaroon) |
+| Core Lightning | Optional | `>=25.12.1:4`        | `lightningd`, `check-synced` | `main/bitcoin` → `/mnt/cln` (read-only)   | Lightning Network data (Unix socket)         |
 
-Only one indexer (Electrs or Fulcrum) can be active at a time. Only one Lightning node (LND or CLN) can be active at a time. Optional dependencies are only registered when selected by the corresponding action.
+Only one indexer (Electrs or Fulcrum) can be active at a time. Only one Lightning node (LND, Lightning Fork or CLN) can be active at a time. Optional dependencies are only registered when selected by the corresponding action.
 
 Bitcoin Core's `.cookie` file at `/mnt/bitcoind/.cookie` is used for RPC authentication.
 
@@ -237,7 +241,7 @@ Bitcoin Core's `.cookie` file at `/mnt/bitcoind/.cookie` is used for RPC authent
 
 1. **Mainnet only** — Testnet, testnet4, signet, regtest, and Liquid not available
 2. **No Esplora backend** — Uses Electrum backend only
-3. **Single Lightning node** — Cannot use both LND and CLN simultaneously
+3. **Single Lightning node** — Cannot use more than one of LND, Lightning Fork and CLN simultaneously
 4. **No MAXMIND geolocation** — GeoIP features disabled
 5. **No Redis** — Redis caching not available
 6. **No Stratum** — Stratum mining protocol disabled
@@ -295,6 +299,9 @@ dependencies:
   lnd:
     required: false
     version_range: '>=0.20.1-beta:1'
+  lightning-fork:
+    required: false
+    version_range: '>=0.21.3-beta.16:0'
   c-lightning:
     required: false
     version_range: '>=25.12.1:4'

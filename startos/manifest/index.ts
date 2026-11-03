@@ -6,6 +6,7 @@ import {
   clnDescription,
   electrsDescription,
   fulcrumDescription,
+  lightningForkDescription,
   lndDescription,
   long,
   short,
@@ -84,6 +85,14 @@ export const manifest = setupManifest({
       metadata: {
         title: 'LND',
         icon: 'https://raw.githubusercontent.com/Start9Labs/lnd-startos/refs/heads/master/icon.svg',
+      },
+    },
+    'lightning-fork': {
+      description: lightningForkDescription,
+      optional: true,
+      metadata: {
+        title: 'Lightning Fork',
+        icon: 'https://raw.githubusercontent.com/paulscode/lightning-fork-startos/master/icon.png',
       },
     },
   },

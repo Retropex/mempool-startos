@@ -2,7 +2,8 @@ import { FileHelper, z } from '@start9labs/start-sdk'
 import { sdk } from '../sdk'
 import {
   btcMountpoint,
-  lndMountpoint,
+  lndCertPath,
+  lndMacaroonPath,
   clnMountpoint,
   PROFILES,
   DEFAULT_PROFILE,
@@ -135,15 +136,10 @@ const lightningSection = z.object({
 
 const lndSection = z.object({
   // enforced
-  TLS_CERT_PATH: z
-    .literal(`${lndMountpoint}/tls.cert`)
-    .catch(`${lndMountpoint}/tls.cert`),
-  MACAROON_PATH: z
-    .literal(`${lndMountpoint}/readonly.macaroon`)
-    .catch(`${lndMountpoint}/readonly.macaroon`),
-  REST_API_URL: z
-    .literal('https://lnd.startos:8080')
-    .catch('https://lnd.startos:8080'),
+  TLS_CERT_PATH: z.literal(lndCertPath).catch(lndCertPath),
+  MACAROON_PATH: z.literal(lndMacaroonPath).catch(lndMacaroonPath),
+  // Written by init/watchLightning from the selected package's container IP.
+  REST_API_URL: z.string().catch('https://lnd.startos:8080'),
   // configurable
   TIMEOUT: z.number().catch(10000),
 })

@@ -1,6 +1,7 @@
 import { configJson } from '../file-models/mempool-config.json'
+import { storeJson } from '../file-models/store.json'
 import { sdk } from '../sdk'
-import { lndMountpoint, clnMountpoint } from '../utils'
+import { clnMountpoint, lndCertPath, lndMacaroonPath } from '../utils'
 import { i18n } from '../i18n'
 const { InputSpec, Value } = sdk
 
@@ -11,6 +12,7 @@ export const lightningInputSpec = InputSpec.of({
     default: 'none',
     values: {
       lnd: i18n('LND'),
+      'lightning-fork': i18n('Lightning Fork'),
       cln: i18n('Core Lightning'),
       none: i18n('None'),
     },
@@ -41,21 +43,31 @@ export const enableLightning = sdk.Action.withInput(
   async ({ effects }) => {
     const config = await configJson.read().const(effects)
     if (!config) throw new Error('Config file not found')
+    const lndPackage = await storeJson
+      .read((s) => s.lightningPackage)
+      .const(effects)
 
-    return {
-      lightning: config.LIGHTNING.ENABLED ? config.LIGHTNING.BACKEND : 'none',
-    } as LightningInputSpec
+    const lightning: LightningInputSpec['lightning'] = !config.LIGHTNING.ENABLED
+      ? 'none'
+      : config.LIGHTNING.BACKEND === 'lnd' && lndPackage === 'lightning-fork'
+        ? 'lightning-fork'
+        : config.LIGHTNING.BACKEND
+    return { lightning }
   },
 
   // the execution function
   async ({ effects, input }) => {
     switch (input.lightning) {
       case 'lnd':
+      case 'lightning-fork':
+        // Both are `lnd` to Mempool; which package it is decides the
+        // dependency, the mount and the REST URL (init/watchLightning).
+        await storeJson.merge(effects, { lightningPackage: input.lightning })
         await configJson.merge(effects, {
           LIGHTNING: { ENABLED: true, BACKEND: 'lnd' },
           LND: {
-            TLS_CERT_PATH: `${lndMountpoint}/tls.cert`,
-            MACAROON_PATH: `${lndMountpoint}/readonly.macaroon`,
+            TLS_CERT_PATH: lndCertPath,
+            MACAROON_PATH: lndMacaroonPath,
           },
         })
         break

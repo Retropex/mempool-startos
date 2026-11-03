@@ -2,8 +2,10 @@ import { T } from '@start9labs/start-sdk'
 import type { Action } from '@start9labs/start-sdk/base/lib/actions/setupActions'
 import { autoconfig as _autoconfig } from 'bitcoin-core-startos/startos/actions/config/autoconfig'
 import { configJson } from './file-models/mempool-config.json'
+import { storeJson } from './file-models/store.json'
 import { i18n } from './i18n'
 import { sdk } from './sdk'
+import { settled } from './utils'
 
 const autoconfig = _autoconfig as unknown as Action<
   'autoconfig',
@@ -24,17 +26,35 @@ export const setDependencies = sdk.setupDependencies(async ({ effects }) => {
   })
 
   let currentDeps = {} as Record<
-    'bitcoind' | 'lnd' | 'c-lightning' | 'fulcrum' | 'electrs',
+    | 'bitcoind'
+    | 'lnd'
+    | 'lightning-fork'
+    | 'c-lightning'
+    | 'fulcrum'
+    | 'electrs',
     T.DependencyRequirement
   >
 
-  const lnData = await configJson.read((c) => c.LIGHTNING).const(effects)
-  const electrumHost = await configJson
-    .read((c) => c.ELECTRUM.HOST)
-    .const(effects)
+  const lnData = await settled(() =>
+    configJson.read((c) => c.LIGHTNING).const(effects),
+  )
+  const electrumHost = await settled(() =>
+    configJson.read((c) => c.ELECTRUM.HOST).const(effects),
+  )
+  const lndPackage =
+    (await settled(() =>
+      storeJson.read((s) => s.lightningPackage).const(effects),
+    )) ?? 'lnd'
 
   if (lnData && lnData.ENABLED) {
-    if (lnData.BACKEND === 'lnd') {
+    if (lnData.BACKEND === 'lnd' && lndPackage === 'lightning-fork') {
+      currentDeps['lightning-fork'] = {
+        id: 'lightning-fork',
+        kind: 'running',
+        versionRange: '>=0.21.3-beta.16:0',
+        healthChecks: ['lnd', 'sync-progress'],
+      }
+    } else if (lnData.BACKEND === 'lnd') {
       currentDeps.lnd = {
         id: 'lnd',
         kind: 'running',
